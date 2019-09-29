@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class ItemRepositoryTest extends AdminApplicationTests {
@@ -18,10 +19,16 @@ public class ItemRepositoryTest extends AdminApplicationTests {
     @Test
     public void create(){
         Item item = new Item();
-        item.setName("Note book");
-        item.setPrice(100000);
-        item.setContent("Macbook Pro 15inch");
-
+        item.setStatus("UNREGISTERED");
+        item.setName("삼성 노트북");
+        item.setTitle("삼성 노트북 A100");
+        item.setContent("2019년형 노트북입니다.");
+        item.setPrice(5000000);
+        item.setBrandName("SAMSUNG");
+        item.setRegisteredAt(LocalDateTime.now());
+        item.setCreatedAt(LocalDateTime.now());
+        item.setCreatedBy("Partner01");
+        //item.setPartnerId(1L);
         itemRepository.save(item);
         Assert.assertNotNull(item);
     }

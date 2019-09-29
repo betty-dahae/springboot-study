@@ -21,20 +21,60 @@ public class UserRepositoryTest extends AdminApplicationTests {
 
     @Test
     public void create(){
-        User user = new User();
-        user.setAccount("abc3@gmail.com");
-        user.setCreatedAt(LocalDateTime.now());
-        user.setCreatedBy("admin");
-        user.setEmail("abc3@gmail.com");
-        user.setPhoneNumber("010-1234-1234");
+        String account = "Test03";
+        String password = "Test03";
+        String status = "REGISTERED";
+        String email = "Test02@gmail.com";
+        String phoneNumber = "010-1234-3333";
+        LocalDateTime registeredAt = LocalDateTime.now();
+        //builder
+        User user = User.builder().account(account).password(password)
+                .status(status).email(email)
+                .phoneNumber(phoneNumber).registeredAt(registeredAt).build();
+
+        //chain
+        user.setRegisteredAt(LocalDateTime.now()).setPassword("1234");
+/*
+        user.setAccount(account);
+        user.setEmail(email);
+        user.setPhoneNumber(phoneNumber);
+        user.setStatus(status);
+        user.setPassword(password);
+        user.setRegisteredAt(registeredAt);
+*/
 
         User createdUser = userRepository.save(user);
+        Assert.assertNotNull(createdUser);
         System.out.println("createdUser Id : " + createdUser.getId());
+
+
     }
 
     @Test
     @Transactional
     public void read(){
+        String phoneNumber = "010-1234-1234";
+        Optional<User> firstUser = userRepository.findById(1L);
+        firstUser.ifPresent(user->{
+            user.getOrderGroupList().stream().forEach(orderGroup->{
+                System.out.println("-------------주문 그룹--------------");
+                System.out.println("수령인 " + orderGroup.getRevName());
+                System.out.println("수령지 " + orderGroup.getRevAddress());
+                System.out.println("총금액 " + orderGroup.getTotalPrice());
+                System.out.println("총수량 " + orderGroup.getTotalQuantity());
+                System.out.println(orderGroup);
+
+                System.out.println("-------------주문상세--------------");
+                orderGroup.getOrderDetailList().stream().forEach(orderDetail -> {
+                    System.out.println("파트너스 이름: " + orderDetail.getItem().getPartner().getName());
+                    System.out.println("파트너사 카테고리 " + orderDetail.getItem().getPartner().getCategory().getTitle());
+                    System.out.println("주문 상품 : " + orderDetail.getItem().getName());
+                    System.out.println("주문 상태 : " + orderDetail.getStatus());
+                    System.out.println("도착 예정 일자  : " + orderDetail.getArrivalDate());
+                });
+            });
+        });
+        Assert.assertNotNull(firstUser);
         //Optional<User> selectedUser = userRepository.findById(6L);
         /*Optional<User> selectedUser = userRepository.findByAccount("abc@gmail.com");
 
