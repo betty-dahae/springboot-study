@@ -1,5 +1,6 @@
 package com.example.admin.model.entity;
 
+import com.example.admin.model.enumclass.OrderType;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.graalvm.compiler.lir.alloc.lsra.LinearScan;
@@ -28,7 +29,8 @@ public class OrderGroup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String status;
-    private String orderType;
+    @Enumerated(EnumType.STRING)
+    private OrderType orderType;
     private String revAddress;
     private String revName;
     private String paymentType;

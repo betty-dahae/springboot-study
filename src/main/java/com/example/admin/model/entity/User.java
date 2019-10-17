@@ -1,5 +1,6 @@
 package com.example.admin.model.entity;
 
+import com.example.admin.model.enumclass.UserStatus;
 import jdk.vm.ci.meta.Local;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -28,7 +29,9 @@ public class User {
     private Long id;
     private String account;
     private String password;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status; //REGISTERED / UNREGISTERED / WAITING
     private String email;
     private String phoneNumber;
     private LocalDateTime registeredAt;

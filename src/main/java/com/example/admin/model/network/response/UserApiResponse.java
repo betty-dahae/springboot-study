@@ -1,5 +1,6 @@
 package com.example.admin.model.network.response;
 
+import com.example.admin.model.enumclass.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +20,7 @@ public class UserApiResponse {
     //request 할때는 password가 평문화 이지만 response값은 암호화 됨
     private String password;
 
-    private String status;
+    private UserStatus status;
 
     private String email;
 
