@@ -14,13 +14,11 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemApiResponse> {
+public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResponse, Item> {
 
     @Autowired
     private PartnerRepository partnerRepository;
 
-    @Autowired
-    private ItemRepository itemRepository;
 
     @Override
     public Header<ItemApiResponse> create(Header<ItemApiRequest> request) {
@@ -38,13 +36,13 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
                 .partner(partnerRepository.getOne(body.getPartnerId()))
                 .build();
 
-        Item newItem = itemRepository.save(item);
+        Item newItem = baseRepository.save(item);
         return response(newItem);
     }
 
     @Override
     public Header<ItemApiResponse> read(Long id) {
-        return itemRepository.findById(id)
+        return baseRepository.findById(id)
         .map(item-> response(item))
         .orElseGet(()-> Header.ERROR("No Data"));
     }
@@ -52,7 +50,7 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
     @Override
     public Header<ItemApiResponse> update(Header<ItemApiRequest> request) {
         ItemApiRequest body = request.getData();
-        return itemRepository.findById(body.getId())
+        return baseRepository.findById(body.getId())
                 .map(item-> {
                     item.setStatus(body.getStatus())
                             .setName(body.getName() )
@@ -64,7 +62,7 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
                             .setUnregisteredAt(body.getUnregisteredAt());
                     return item;
                 })
-                .map(updatedItem -> itemRepository.save(updatedItem))
+                .map(updatedItem -> baseRepository.save(updatedItem))
                 .map(item -> response(item))
                 .orElseGet(()->Header.ERROR("No Data"));
     }
@@ -72,9 +70,9 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
     @Override
     public Header delete(Long id) {
 
-        return itemRepository.findById(id)
+        return baseRepository.findById(id)
                 .map(item->{
-                    itemRepository.delete(item);
+                    baseRepository.delete(item);
                     return Header.OK();
                 })
                 .orElseGet(()->Header.ERROR("No Data"));
