@@ -1,5 +1,6 @@
 package com.example.admin.controller.api;
 
+import com.example.admin.controller.CrudController;
 import com.example.admin.ifs.CrudInterface;
 import com.example.admin.model.network.Header;
 import com.example.admin.model.network.request.ItemApiRequest;
@@ -8,13 +9,20 @@ import com.example.admin.service.ItemApiLogicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
+
 @RestController
 @RequestMapping("/api/item")
-public class ItemApiController  implements CrudInterface<ItemApiRequest, ItemApiResponse> {
+public class ItemApiController extends CrudController<ItemApiRequest, ItemApiResponse> {
 
     @Autowired
     private ItemApiLogicService itemApiLogicService;
 
+    @PostConstruct
+    public void init(){
+        this.baseService = itemApiLogicService;
+    }
+/*
     @Override
     @PostMapping("")    //api/item
     public Header<ItemApiResponse> create(@RequestBody Header<ItemApiRequest> request) {
@@ -37,5 +45,5 @@ public class ItemApiController  implements CrudInterface<ItemApiRequest, ItemApi
     @DeleteMapping("{id}") //api/item
     public Header delete(@PathVariable  Long id) {
         return itemApiLogicService.delete(id);
-    }
+    }*/
 }
