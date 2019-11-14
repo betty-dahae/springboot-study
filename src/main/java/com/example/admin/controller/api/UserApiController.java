@@ -6,6 +6,7 @@ import com.example.admin.model.entity.User;
 import com.example.admin.model.network.Header;
 import com.example.admin.model.network.request.UserApiRequest;
 import com.example.admin.model.network.response.UserApiResponse;
+import com.example.admin.model.network.response.UserOrderInfoApiResponse;
 import com.example.admin.service.UserApiLogicService;
 import com.sun.tools.sjavac.Log;
 import lombok.extern.slf4j.Slf4j;
@@ -24,9 +25,17 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class UserApiController extends CrudController<UserApiRequest, UserApiResponse, User> {
 
+    @Autowired
+    UserApiLogicService userApiLogicService;
+
     @GetMapping
     public Header<List<UserApiResponse>> search(@PageableDefault(sort="id", direction= Sort.Direction.ASC, size = 15) Pageable pageable){
         return baseService.search(pageable);
+    }
+
+    @GetMapping("/{id}/orderInfo")
+    public Header<UserOrderInfoApiResponse> orderInfo(@PathVariable Long id){
+        return userApiLogicService.orderInfo(id);
     }
 /*
     @Autowired
