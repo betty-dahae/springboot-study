@@ -4,10 +4,18 @@ import com.example.admin.model.entity.Partner;
 import com.example.admin.model.network.Header;
 import com.example.admin.model.network.request.PartnerApiRequest;
 import com.example.admin.model.network.response.PartnerApiResponse;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PartnerApiLogicApiService extends BaseService<PartnerApiRequest, PartnerApiResponse, Partner> {
+    @Override
+    public Header<List<PartnerApiResponse>> search(Pageable pageable) {
+        return null;
+    }
+
     @Override
     public Header<PartnerApiResponse> create(Header<PartnerApiRequest> request) {
 

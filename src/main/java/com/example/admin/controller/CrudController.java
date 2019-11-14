@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.data.domain.Pageable;
+import java.util.List;
+
 @Component
 public abstract class CrudController<Req, Res, Entity> implements CrudInterface<Req, Res> {
 

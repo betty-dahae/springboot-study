@@ -8,13 +8,19 @@ import com.example.admin.model.network.request.ItemApiRequest;
 import com.example.admin.model.network.response.ItemApiResponse;
 import com.example.admin.service.ItemApiLogicService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/item")
 public class ItemApiController extends CrudController<ItemApiRequest, ItemApiResponse, Item> {
+    @Override
+    public Header<List<ItemApiResponse>> search(Pageable pageable) {
+        return null;
+    }
 /*
     @Autowired
     private ItemApiLogicService itemApiLogicService;

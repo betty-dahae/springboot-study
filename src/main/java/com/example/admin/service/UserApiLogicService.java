@@ -8,10 +8,15 @@ import com.example.admin.model.network.request.UserApiRequest;
 import com.example.admin.model.network.response.UserApiResponse;
 import com.example.admin.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserApiLogicService  extends BaseService<UserApiRequest, UserApiResponse, User> {
@@ -39,7 +44,7 @@ public class UserApiLogicService  extends BaseService<UserApiRequest, UserApiRes
 
         // 3. 생성된 데이터 -> userApiResponse return
 
-        return response(user);
+        return Header.OK(response(user));
     }
 
     @Override
@@ -50,7 +55,7 @@ public class UserApiLogicService  extends BaseService<UserApiRequest, UserApiRes
         // user -> userApiResponse return
 
         return optional
-                .map(user -> response(user))
+                .map(user -> Header.OK(response(user)))
                 .orElseGet(()-> Header.ERROR("No Data"));
     }
 
@@ -74,7 +79,7 @@ public class UserApiLogicService  extends BaseService<UserApiRequest, UserApiRes
             return user;
         })
         .map(user -> baseRepository.save(user)) //update -> new User
-        .map(updatedUser -> response(updatedUser)) //userApiResponse
+        .map(updatedUser -> Header.OK(response(updatedUser))) //userApiResponse
         .orElseGet(()-> Header.ERROR("No Data"));
     }
 
@@ -90,7 +95,17 @@ public class UserApiLogicService  extends BaseService<UserApiRequest, UserApiRes
         }).orElseGet(()-> Header.ERROR("No Data"));
     }
 
-    private Header<UserApiResponse> response(User user){
+    @Override
+    public Header<List<UserApiResponse>> search(Pageable pageable) {
+        Page<User> users = baseRepository.findAll(pageable);
+
+        List<UserApiResponse> userApiResponseList = users.stream()
+                .map(user -> response(user))
+                .collect(Collectors.toList());
+        return Header.OK(userApiResponseList);
+    }
+
+    private UserApiResponse response(User user){
         // user -> userApiResponse
 
         UserApiResponse userApiResponse = UserApiResponse.builder()
@@ -104,7 +119,7 @@ public class UserApiLogicService  extends BaseService<UserApiRequest, UserApiRes
                 .unregisteredAt(user.getUnregisteredAt())
                 .build();
 
-        return Header.OK(userApiResponse);
+        return userApiResponse;
 
     }
 }

@@ -8,9 +8,11 @@ import com.example.admin.model.network.response.ItemApiResponse;
 import com.example.admin.repository.ItemRepository;
 import com.example.admin.repository.PartnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +21,11 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
     @Autowired
     private PartnerRepository partnerRepository;
 
+
+    @Override
+    public Header<List<ItemApiResponse>> search(Pageable pageable) {
+        return null;
+    }
 
     @Override
     public Header<ItemApiResponse> create(Header<ItemApiRequest> request) {
