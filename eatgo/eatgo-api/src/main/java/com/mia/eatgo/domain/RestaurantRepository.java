@@ -1,8 +1,11 @@
 package com.mia.eatgo.domain;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Component//IOC를 위한 주석
 public class RestaurantRepository {
 
     List<Restaurant> restaurants = new ArrayList<>();
