@@ -1,0 +1,27 @@
+package com.mia.eatgo.interfaces;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@RunWith(SpringRunner.class) //스프링을 이용하여 테스트 실행
+@WebMvcTest(RestaurantController.class)
+public class RestaurantControllerTest {
+    @Autowired
+    private MockMvc mvc;
+    @Test
+    public void list() throws Exception {
+        mvc.perform(get("/restaurants"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("\"name\":\"mia\"")))
+                .andExpect(content().string(containsString("\"id\":\"m01\"")));
+    }
+}
