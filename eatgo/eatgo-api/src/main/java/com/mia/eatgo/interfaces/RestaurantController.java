@@ -1,21 +1,19 @@
 package com.mia.eatgo.interfaces;
 
 import com.mia.eatgo.domain.Restaurant;
-import com.mia.eatgo.domain.RestaurantRepository;
+import com.mia.eatgo.domain.RestaurantRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 public class RestaurantController {
 
     @Autowired
-    private RestaurantRepository repository;
+    private RestaurantRepositoryImpl repository;
 
     @GetMapping("/restaurants")
     public List<Restaurant> list(){
