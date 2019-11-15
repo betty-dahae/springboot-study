@@ -4,7 +4,7 @@ public class Restaurant {
 
     private  String name;
     private String address;
-    private String id;
+    private Long id;
 
     public Restaurant(String name) {
         this.name = name;
@@ -15,7 +15,7 @@ public class Restaurant {
         this.address = address;
     }
 
-    public Restaurant(String name, String address, String id) {
+    public Restaurant(String name, String address, Long id) {
         this.name = name;
         this.address = address;
         this.id = id;
@@ -30,7 +30,7 @@ public class Restaurant {
         return address;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
