@@ -1,10 +1,14 @@
 package com.mia.eatgo.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Restaurant {
 
     private  String name;
     private String address;
     private Long id;
+    private List<MenuItem> menuItems = new ArrayList<>();
 
     public Restaurant(String name) {
         this.name = name;
@@ -36,5 +40,19 @@ public class Restaurant {
 
     public Object getInformation() {
         return this.name + " in " + this.address;
+    }
+
+    public void addMenuItem(MenuItem menuItem) {
+        menuItems.add(menuItem);
+    }
+
+    public List<MenuItem> getMenuItemList() {
+        return menuItems;
+    }
+
+    public void setMenuItems(List<MenuItem> menuItems) {
+        for(MenuItem menuItem : menuItems){
+            addMenuItem(menuItem);
+        }
     }
 }

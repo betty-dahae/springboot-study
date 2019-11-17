@@ -1,5 +1,7 @@
 package com.mia.eatgo.interfaces;
 
+import com.mia.eatgo.domain.MenuItemRepository;
+import com.mia.eatgo.domain.MenuItemRepositoryImpl;
 import com.mia.eatgo.domain.RestaurantRepository;
 import com.mia.eatgo.domain.RestaurantRepositoryImpl;
 import org.junit.Test;
@@ -23,6 +25,8 @@ public class RestaurantControllerTest {
 
     @SpyBean(RestaurantRepositoryImpl.class) //WebMvcTest를 사용할시 제대로된 repository를 사용 할 수 없기 때문에 SpyBean주석을 통해 repository의 의존성을 주입시켜줘야함
     private RestaurantRepository restaurantRepository;
+    @SpyBean(MenuItemRepositoryImpl.class)
+    private MenuItemRepository menuItemRepository;
     @Test
     public void list() throws Exception {
         mvc.perform(get("/restaurants"))
@@ -36,7 +40,8 @@ public class RestaurantControllerTest {
         mvc.perform(get("/restaurants/1004"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("\"name\":\"mia\"")))
-                .andExpect(content().string(containsString("\"id\":1004")));
+                .andExpect(content().string(containsString("\"id\":1004")))
+                .andExpect(content().string(containsString("\"menu\":\"kimchi\"")));
 
         mvc.perform(get("/restaurants/2020"))
                 .andExpect(status().isOk())
