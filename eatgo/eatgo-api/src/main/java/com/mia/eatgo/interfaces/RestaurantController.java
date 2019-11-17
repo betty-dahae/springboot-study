@@ -1,5 +1,6 @@
 package com.mia.eatgo.interfaces;
 
+import com.mia.eatgo.application.RestaurantService;
 import com.mia.eatgo.domain.*;
 import com.mia.eatgo.domain.MenuItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,7 @@ import java.util.List;
 public class RestaurantController {
 
     @Autowired
-    private RestaurantRepositoryImpl repository;
-    @Autowired
-    private MenuItemRepositoryImpl menuItemRepository;
+    private RestaurantService restaurantService;
 
     @GetMapping("/restaurants")
     public List<Restaurant> list(){
@@ -24,7 +23,7 @@ public class RestaurantController {
         Restaurant restaurant = new Restaurant("mia", "Vancouver", 1004L);
         restaurants.add(restaurant);*/
 
-        List<Restaurant> restaurants = repository.findAll();
+        List<Restaurant> restaurants = restaurantService.getRestaurants();
         return restaurants;
     }
 
@@ -39,9 +38,9 @@ public class RestaurantController {
                 .findFirst()
                 .orElse(null);*/
 
-        Restaurant restaurant = repository.findById(id);
-        List<MenuItem> menuItemList = menuItemRepository.findAllByRestaurantId(id);
-        restaurant.setMenuItems(menuItemList);
+        Restaurant restaurant = restaurantService.getRestaurant(id);
+        //List<MenuItem> menuItemList = restaurantService.findAllByRestaurantId(id);
+        //restaurant.setMenuItems(menuItemList);
         return restaurant;
     }
 }

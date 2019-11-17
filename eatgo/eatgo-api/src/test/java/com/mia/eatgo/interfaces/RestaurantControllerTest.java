@@ -1,5 +1,6 @@
 package com.mia.eatgo.interfaces;
 
+import com.mia.eatgo.application.RestaurantService;
 import com.mia.eatgo.domain.MenuItemRepository;
 import com.mia.eatgo.domain.MenuItemRepositoryImpl;
 import com.mia.eatgo.domain.RestaurantRepository;
@@ -23,10 +24,12 @@ public class RestaurantControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @SpyBean(RestaurantRepositoryImpl.class) //WebMvcTest를 사용할시 제대로된 repository를 사용 할 수 없기 때문에 SpyBean주석을 통해 repository의 의존성을 주입시켜줘야함
+    @SpyBean(RestaurantRepositoryImpl.class) //스프링 테스트가 아니기 때문에 WebMvcTest를 사용할시 제대로된 repository를 사용 할 수 없기 때문에 SpyBean주석을 통해 repository의 의존성을 주입시켜줘야함
     private RestaurantRepository restaurantRepository;
     @SpyBean(MenuItemRepositoryImpl.class)
     private MenuItemRepository menuItemRepository;
+    @SpyBean(RestaurantService.class)
+    private RestaurantService restaurantService;
     @Test
     public void list() throws Exception {
         mvc.perform(get("/restaurants"))

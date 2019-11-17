@@ -46,7 +46,7 @@ public class Restaurant {
         menuItems.add(menuItem);
     }
 
-    public List<MenuItem> getMenuItemList() {
+    public List<MenuItem> getMenuItems() {
         return menuItems;
     }
 
