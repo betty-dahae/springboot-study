@@ -1,19 +1,21 @@
 package com.mia.eatgo.interfaces;
 
 import com.mia.eatgo.application.RestaurantService;
-import com.mia.eatgo.domain.MenuItemRepository;
-import com.mia.eatgo.domain.MenuItemRepositoryImpl;
-import com.mia.eatgo.domain.RestaurantRepository;
-import com.mia.eatgo.domain.RestaurantRepositoryImpl;
+import com.mia.eatgo.domain.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -24,14 +26,13 @@ public class RestaurantControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @SpyBean(RestaurantRepositoryImpl.class) //스프링 테스트가 아니기 때문에 WebMvcTest를 사용할시 제대로된 repository를 사용 할 수 없기 때문에 SpyBean주석을 통해 repository의 의존성을 주입시켜줘야함
-    private RestaurantRepository restaurantRepository;
-    @SpyBean(MenuItemRepositoryImpl.class)
-    private MenuItemRepository menuItemRepository;
-    @SpyBean(RestaurantService.class)
-    private RestaurantService restaurantService;
+    @MockBean
+    RestaurantService restaurantService;
     @Test
     public void list() throws Exception {
+        List<Restaurant> restaurants = new ArrayList<>();
+        restaurants.add(new Restaurant("mia", "Vancouver", 1004L));
+        given(restaurantService.getRestaurants()).willReturn(restaurants);
         mvc.perform(get("/restaurants"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("\"name\":\"mia\"")))
@@ -40,6 +41,12 @@ public class RestaurantControllerTest {
 
     @Test
     public void detail() throws Exception {
+        Restaurant restaurant = new Restaurant("mia", "Vancouver", 1004L);
+        restaurant.addMenuItem(new MenuItem("kimchi"));
+        Restaurant restaurant2 = new Restaurant("bam", "Vancouver", 2020L);
+
+        given(restaurantService.getRestaurant(1004L)).willReturn(restaurant);
+        given(restaurantService.getRestaurant(2020L)).willReturn(restaurant2);
         mvc.perform(get("/restaurants/1004"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("\"name\":\"mia\"")))
