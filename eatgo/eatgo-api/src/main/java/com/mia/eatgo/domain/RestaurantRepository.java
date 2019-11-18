@@ -7,5 +7,5 @@ public interface RestaurantRepository {
 
     Restaurant findById(Long id);
 
-    void insert(Restaurant restaurant);
+    Restaurant save(Restaurant restaurants);
 }

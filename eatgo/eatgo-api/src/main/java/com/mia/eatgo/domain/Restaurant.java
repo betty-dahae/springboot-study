@@ -40,6 +40,10 @@ public class Restaurant {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public Object getInformation() {
         return this.name + " in " + this.address;
     }
