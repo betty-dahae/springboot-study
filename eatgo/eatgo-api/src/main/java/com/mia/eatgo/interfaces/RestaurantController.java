@@ -11,6 +11,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 //UI Layer
+@CrossOrigin
 @RestController
 public class RestaurantController {
 
