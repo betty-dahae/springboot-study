@@ -52,7 +52,17 @@ public class RestaurantController {
         String address = resource.getAddress();
         Restaurant restaurant = new Restaurant(name, address);
         restaurantService.addRestaurant(restaurant);
-        URI location = new URI("/restaurants/"+restaurant.getId());
+        URI location = new URI("/restaurants");
         return ResponseEntity.created(location).body("{}");
+    }
+
+    @PatchMapping("/restaurants/{id}")
+    public String update(@PathVariable("id") Long id,
+                         @RequestBody Restaurant resource){
+
+        String name = resource.getName();
+        String address = resource.getAddress();
+        restaurantService.updateRestaurant(id, name, address);
+        return "{}";
     }
 }
