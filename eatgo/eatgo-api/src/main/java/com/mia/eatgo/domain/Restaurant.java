@@ -10,6 +10,8 @@ public class Restaurant {
     private Long id;
     private List<MenuItem> menuItems = new ArrayList<>();
 
+    public Restaurant(){}
+
     public Restaurant(String name) {
         this.name = name;
     }

@@ -19,6 +19,11 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
     }
 
     @Override
+    public void insert(Restaurant restaurant) {
+        restaurants.add(restaurant);
+    }
+
+    @Override
     public List<Restaurant> findAll(){
         return restaurants;
     }

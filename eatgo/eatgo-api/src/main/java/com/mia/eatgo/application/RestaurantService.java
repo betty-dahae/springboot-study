@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+//Application Layer
 @Service
 public class RestaurantService {
     @Autowired
@@ -35,4 +35,7 @@ public class RestaurantService {
         return restaurants;
     }
 
+    public void addRestaurant(Restaurant restaurant) {
+        restaurantRepository.insert(restaurant);
+    }
 }

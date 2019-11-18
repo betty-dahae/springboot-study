@@ -4,12 +4,13 @@ import com.mia.eatgo.application.RestaurantService;
 import com.mia.eatgo.domain.*;
 import com.mia.eatgo.domain.MenuItem;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
-
+//UI Layer
 @RestController
 public class RestaurantController {
 
@@ -42,5 +43,15 @@ public class RestaurantController {
         //List<MenuItem> menuItemList = restaurantService.findAllByRestaurantId(id);
         //restaurant.setMenuItems(menuItemList);
         return restaurant;
+    }
+
+    @PostMapping("/restaurants") //@RequestBody로 정의할때 반드시 기본 생성자가 있어야함
+    public ResponseEntity<?> create(@RequestBody Restaurant resource) throws URISyntaxException {
+        String name = resource.getName();
+        String address = resource.getAddress();
+        Restaurant restaurant = new Restaurant(name, address, 1020L);
+        restaurantService.addRestaurant(restaurant);
+        URI location = new URI("/restaurants/"+restaurant.getId());
+        return ResponseEntity.created(location).body("{}");
     }
 }
