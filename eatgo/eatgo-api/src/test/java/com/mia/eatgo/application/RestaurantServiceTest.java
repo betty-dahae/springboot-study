@@ -35,7 +35,9 @@ public class RestaurantServiceTest {
 
     private void mockMenuItemRepository() {
         List<MenuItem> menuItems = new ArrayList<>();
-        MenuItem menuItem = new MenuItem("kimchi");
+        MenuItem menuItem = MenuItem.builder()
+                .menu("kimchi")
+                .build();
         menuItems.add(menuItem);
 
         given(menuItemRepository.findAllByRestaurantId(1004L)).willReturn(menuItems);
@@ -43,7 +45,11 @@ public class RestaurantServiceTest {
 
     private void mockRestaurantRepository() {
         List<Restaurant> restaurants = new ArrayList<>();
-        Restaurant restaurant = new Restaurant("mia", "Vancouver", 1004L);
+        Restaurant restaurant = Restaurant.builder()
+                .name("mia")
+                .address("Vancouver")
+                .id(1004L)
+                .build();
         restaurants.add(restaurant);
 
         given(restaurantRepository.findAll()).willReturn(restaurants);
@@ -69,17 +75,28 @@ public class RestaurantServiceTest {
     
     @Test
     public void addRestaurant(){
+        given(restaurantRepository.save(any())).will(invocation -> {
+            Restaurant restaurant = invocation.getArgument(0);
+            restaurant.setId(1020L);
+            return restaurant;
+        });
 
-        Restaurant restaurant = new Restaurant("GalbiZip", "Toronto");
-        Restaurant saved = new Restaurant("GalbiZip", "Toronto", 1020L);
-        given(restaurantRepository.save(any())).willReturn(saved);
+        Restaurant restaurant = Restaurant.builder()
+                .name("GalbiZip")
+                .address("Toronto")
+                .build();
+
         Restaurant created = restaurantService.addRestaurant(restaurant);
         assertThat(created.getId(), is(1020L));
     }
 
     @Test
     public void updateRestaurant(){
-        Restaurant restaurant = new Restaurant("Bab Zip", "Toronto", 1004L);
+        Restaurant restaurant = Restaurant.builder()
+                .name("Bab Zip")
+                .address("Toronto")
+                .id(1004L)
+                .build();
         given(restaurantRepository.findById(1004L))
                 .willReturn(Optional.of(restaurant));
         restaurantService.updateRestaurant(1004L, "Sool Zip", "Vancouver");

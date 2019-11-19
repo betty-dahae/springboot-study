@@ -8,13 +8,13 @@ public class RestaurantTest {
 
     @Test
     public void creation(){
-        Restaurant restaurant = new Restaurant("mia");
+        Restaurant restaurant = Restaurant.builder().name("mia").build();
         assertThat(restaurant.getName(), is("mia"));
     }
 
     @Test
     public void information(){
-        Restaurant restaurant = new Restaurant("mia", "Vancouver");
+        Restaurant restaurant = Restaurant.builder().name("mia").address("Vancouver").build();
         assertThat(restaurant.getInformation(), is("mia in Vancouver"));
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
@@ -33,7 +34,7 @@ public class RestaurantControllerTest {
     @Test
     public void list() throws Exception {
         List<Restaurant> restaurants = new ArrayList<>();
-        restaurants.add(new Restaurant("mia", "Vancouver", 1004L));
+        restaurants.add(Restaurant.builder().name("mia").address("Vancouver").id(1004L).build());
         given(restaurantService.getRestaurants()).willReturn(restaurants);
         mvc.perform(get("/restaurants"))
                 .andExpect(status().isOk())
@@ -43,9 +44,13 @@ public class RestaurantControllerTest {
 
     @Test
     public void detail() throws Exception {
-        Restaurant restaurant = new Restaurant("mia", "Vancouver", 1004L);
-        restaurant.addMenuItem(new MenuItem("kimchi"));
-        Restaurant restaurant2 = new Restaurant("bam", "Vancouver", 2020L);
+        Restaurant restaurant = Restaurant.builder()
+                .name("mia")
+                .address("Vancouver")
+                .id(1004L)
+                .build();
+        restaurant.setMenuItems(Arrays.asList(MenuItem.builder().menu("kimchi").build()));
+        Restaurant restaurant2 = Restaurant.builder().name("bam").address("Vancouver").id(2020L).build();
 
         given(restaurantService.getRestaurant(1004L)).willReturn(restaurant);
         given(restaurantService.getRestaurant(2020L)).willReturn(restaurant2);
