@@ -50,20 +50,16 @@ public class RestaurantControllerTest {
                 .id(1004L)
                 .build();
         restaurant.setMenuItems(Arrays.asList(MenuItem.builder().menu("Kimchi").build()));
-        Restaurant restaurant2 = Restaurant.builder().name("bam").address("Vancouver").id(2020L).build();
-
+        Review review = Review.builder().name("Bam").score(5).description("Good").build();
+        restaurant.setReviews(Arrays.asList(review));
         given(restaurantService.getRestaurant(1004L)).willReturn(restaurant);
-        given(restaurantService.getRestaurant(2020L)).willReturn(restaurant2);
         mvc.perform(get("/restaurants/1004"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("\"name\":\"mia\"")))
                 .andExpect(content().string(containsString("\"id\":1004")))
-                .andExpect(content().string(containsString("\"menu\":\"Kimchi\"")));
-
-        mvc.perform(get("/restaurants/2020"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("\"name\":\"bam\"")))
-                .andExpect(content().string(containsString("\"id\":2020")));
+                .andExpect(content().string(containsString("\"menu\":\"Kimchi\"")))
+                .andExpect(content().string(containsString("\"description\":\"Good\"")))
+        ;
     }
 
     @Test
