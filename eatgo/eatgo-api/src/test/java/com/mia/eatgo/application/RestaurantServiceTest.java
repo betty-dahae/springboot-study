@@ -36,7 +36,7 @@ public class RestaurantServiceTest {
     private void mockMenuItemRepository() {
         List<MenuItem> menuItems = new ArrayList<>();
         MenuItem menuItem = MenuItem.builder()
-                .menu("kimchi")
+                .menu("Kimchi")
                 .build();
         menuItems.add(menuItem);
 
@@ -62,7 +62,7 @@ public class RestaurantServiceTest {
         Restaurant restaurant = restaurantService.getRestaurant(1004L);
         assertThat(restaurant.getId(), is(1004L));
         MenuItem menuItem = restaurant.getMenuItems().get(0);
-        assertThat(menuItem.getMenu(), is("kimchi"));
+        assertThat(menuItem.getMenu(), is("Kimchi"));
     }
     @Test(expected = RestaurantNotFoundException.class)
     public void getRestaurantWithNotExisted(){

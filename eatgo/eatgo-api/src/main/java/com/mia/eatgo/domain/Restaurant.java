@@ -1,6 +1,7 @@
 package com.mia.eatgo.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -29,6 +30,7 @@ public class Restaurant {
     private String address;
 
     @Transient //임시로 통과
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<MenuItem> menuItems = new ArrayList<>();
 
     public Object getInformation() {
