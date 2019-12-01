@@ -21,10 +21,6 @@ public class RestaurantServiceTest {
     private RestaurantService restaurantService;
     @Mock
     private RestaurantRepository restaurantRepository;
-    @Mock
-    private MenuItemRepository menuItemRepository;
-    @Mock
-    private ReviewRepository reviewRepository;
 
     //before : 모든 테스트가 실행 되기 전에 해당 테스트를 반드시 실행
     @Before //스프링 테스트가 아니기때문에 autowired하듯이 IOC 주입이 안되어 다음과 같이 setUp을 해주어야
@@ -32,33 +28,8 @@ public class RestaurantServiceTest {
         MockitoAnnotations.initMocks(this);
 
         mockRestaurantRepository();
-        mockMenuItemRepository();
-        mockReviewRepository();
-        restaurantService = new RestaurantService(restaurantRepository, menuItemRepository, reviewRepository);
+        restaurantService = new RestaurantService(restaurantRepository);
 
-    }
-
-    private void mockReviewRepository() {
-
-        List<Review> reviews = new ArrayList<>();
-        Review review = Review.builder()
-                        .name("Bam")
-                        .score(5)
-                        .description("Good")
-                        .build();
-        reviews.add(review);
-
-        given(reviewRepository.findAllByRestaurantId(1004L)).willReturn(reviews);
-    }
-
-    private void mockMenuItemRepository() {
-        List<MenuItem> menuItems = new ArrayList<>();
-        MenuItem menuItem = MenuItem.builder()
-                .menu("Kimchi")
-                .build();
-        menuItems.add(menuItem);
-
-        given(menuItemRepository.findAllByRestaurantId(1004L)).willReturn(menuItems);
     }
 
     private void mockRestaurantRepository() {
@@ -78,13 +49,7 @@ public class RestaurantServiceTest {
     @Test
     public void getRestaurantWithExisted(){
         Restaurant restaurant = restaurantService.getRestaurant(1004L);
-        verify(menuItemRepository).findAllByRestaurantId(eq(1004L));
-        verify(reviewRepository).findAllByRestaurantId(eq(1004L));
         assertThat(restaurant.getId(), is(1004L));
-        MenuItem menuItem = restaurant.getMenuItems().get(0);
-        assertThat(menuItem.getMenu(), is("Kimchi"));
-        Review review = restaurant.getReviews().get(0);
-        assertThat(review.getDescription(), is("Good"));
     }
     @Test(expected = RestaurantNotFoundException.class)
     public void getRestaurantWithNotExisted(){
