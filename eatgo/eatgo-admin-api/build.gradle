@@ -18,7 +18,7 @@ configurations {
 	}
 }
 
-repositories {
+repositories { //gradle to check out to find dependencies
 	mavenCentral()
 }
 
