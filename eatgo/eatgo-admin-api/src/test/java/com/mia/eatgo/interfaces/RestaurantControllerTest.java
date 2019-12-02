@@ -35,8 +35,8 @@ public class RestaurantControllerTest {
     public void list() throws Exception {
         List<Restaurant> restaurants = new ArrayList<>();
         restaurants.add(Restaurant.builder().name("mia").address("Vancouver").id(1004L).build());
-        given(restaurantService.getRestaurants()).willReturn(restaurants);
-        mvc.perform(get("/restaurants"))
+        given(restaurantService.getRestaurants("Seoul")).willReturn(restaurants);
+        mvc.perform(get("/restaurants?region=Seoul"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("\"name\":\"mia\"")))
                 .andExpect(content().string(containsString("\"id\":1004")));
