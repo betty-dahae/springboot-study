@@ -124,10 +124,11 @@ public class RestaurantServiceTest {
                 .name("Bab Zip")
                 .address("Toronto")
                 .id(1004L)
+                .categoryId(1L)
                 .build();
         given(restaurantRepository.findById(1004L))
                 .willReturn(Optional.of(restaurant));
-        restaurantService.updateRestaurant(1004L, "Sool Zip", "Vancouver");
+        restaurantService.updateRestaurant(1004L, "Sool Zip", "Vancouver", 1L);
         assertThat(restaurant.getName(), is("Sool Zip"));
         assertThat(restaurant.getAddress(), is("Vancouver"));
     }

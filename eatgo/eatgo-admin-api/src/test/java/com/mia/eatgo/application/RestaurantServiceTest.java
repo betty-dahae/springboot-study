@@ -38,10 +38,11 @@ public class RestaurantServiceTest {
                 .name("mia")
                 .address("Vancouver")
                 .id(1004L)
+                .categoryId(1L)
                 .build();
         restaurants.add(restaurant);
 
-        given(restaurantRepository.findAllByAddressContaining("Seoul")).willReturn(restaurants);
+        given(restaurantRepository.findAllByAddressContainingAndCategoryId("Seoul", 1L)).willReturn(restaurants);
         given(restaurantRepository.findById(1004L)).willReturn(Optional.of(restaurant));
 
     }
@@ -58,7 +59,7 @@ public class RestaurantServiceTest {
 
     @Test
     public void getRestaurants(){
-        List<Restaurant> restaurants = restaurantService.getRestaurants("Seoul");
+        List<Restaurant> restaurants = restaurantService.getRestaurants("Seoul", 1L);
 
         Restaurant restaurant = restaurants.get(0);
 
@@ -77,6 +78,7 @@ public class RestaurantServiceTest {
         Restaurant restaurant = Restaurant.builder()
                 .name("GalbiZip")
                 .address("Toronto")
+                .categoryId(1L)
                 .build();
 
         Restaurant created = restaurantService.addRestaurant(restaurant);
@@ -89,10 +91,11 @@ public class RestaurantServiceTest {
                 .name("Bab Zip")
                 .address("Toronto")
                 .id(1004L)
+                .categoryId(1L)
                 .build();
         given(restaurantRepository.findById(1004L))
                 .willReturn(Optional.of(restaurant));
-        restaurantService.updateRestaurant(1004L, "Sool Zip", "Vancouver");
+        restaurantService.updateRestaurant(1004L, "Sool Zip", "Vancouver", 1L);
         assertThat(restaurant.getName(), is("Sool Zip"));
         assertThat(restaurant.getAddress(), is("Vancouver"));
     }
