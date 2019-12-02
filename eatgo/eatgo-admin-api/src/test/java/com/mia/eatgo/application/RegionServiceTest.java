@@ -42,9 +42,14 @@ public class RegionServiceTest {
 
     @Test
     public void addRegion() {
-        Region region = regionService.addRegion("Seoul");
+        given(regionRepository.save(any())).will(invocation -> {
+            Region region = invocation.getArgument(0);
+            region.setId(1L);
+            return region;
+        });
+        Region created = regionService.addRegion("Seoul");
         verify(regionRepository).save(any());
-        assertThat(region.getName(), is("Seoul"));
+        assertThat(created.getName(), is("Seoul"));
     }
 
 }
