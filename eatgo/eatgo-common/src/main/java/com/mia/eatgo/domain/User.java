@@ -1,5 +1,6 @@
 package com.mia.eatgo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -29,6 +30,8 @@ public class User {
     @NotNull
     private Long level;
 
+    private String password;
+
     public boolean isAdmin() {
         return level >= 3;
     }
@@ -45,5 +48,13 @@ public class User {
 
     public boolean isActive() {
         return level > 0;
+    }
+
+    @JsonIgnore
+    public String getAccessToken() {
+        if(password == null){
+            return "";
+        }
+        return password.substring(0, 10);
     }
 }
