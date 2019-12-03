@@ -1,3 +1,4 @@
+
 package com.mia.eatgo.interfaces;
 
 import com.mia.eatgo.application.EmailNotExistedException;

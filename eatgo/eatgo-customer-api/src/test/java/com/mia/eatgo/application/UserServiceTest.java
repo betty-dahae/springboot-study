@@ -64,44 +64,4 @@ public class UserServiceTest {
 
     }
 
-
-    @Test
-    public void authenticateWithValidAttribute(){
-        String email = "tester@gami.com";
-        String password = "test";
-
-        User mockUser = User.builder().email(email).password(password).build();
-
-        given(userRepository.findByEmail(email)).willReturn(Optional.of(mockUser));
-        given(passwordEncoder.matches(any(), any())).willReturn(true);
-
-        User user = userService.authenticate(email, password);
-
-
-
-        assertThat(user.getEmail(), is(email));
-    }
-
-    @Test(expected = EmailNotExistedException.class)
-    public void authenticateWithNotExistedEmail(){
-        String email = "x@gami.com";
-        String password = "test";
-
-        User mockUser = User.builder().email(email).build();
-        given(userRepository.findByEmail(email)).willThrow(new EmailNotExistedException(email));
-
-        User user = userService.authenticate(email, password);
-    }
-
-    @Test(expected = PasswordWrongException.class)
-    public void authenticateWithWrongPassword(){
-        String email = "tester@gami.com";
-        String password = "x";
-
-        User mockUser = User.builder().email(email).password(password).build();
-        given(userRepository.findByEmail(email)).willReturn(Optional.of(mockUser));
-        given(passwordEncoder.matches(any(), any())).willReturn(false);
-        User user = userService.authenticate(email, password);
-    }
-
 }
