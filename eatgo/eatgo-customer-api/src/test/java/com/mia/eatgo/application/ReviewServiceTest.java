@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 public class ReviewServiceTest {
@@ -27,11 +28,11 @@ public class ReviewServiceTest {
 
         Review review = Review.builder()
                 .name("Bam")
-                .score(3)
+                .score(3L)
                 .description("So So")
                 .build();
 
-        reviewService.addReview(1004L, review);
+        reviewService.addReview(1004L, "Bam", 3L, "So So");
 
         verify(reviewRepository).save(any());
     }

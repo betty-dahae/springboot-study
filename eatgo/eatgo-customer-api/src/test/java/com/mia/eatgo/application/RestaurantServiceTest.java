@@ -43,7 +43,7 @@ public class RestaurantServiceTest {
         List<Review> reviews = new ArrayList<>();
         Review review = Review.builder()
                         .name("Bam")
-                        .score(5)
+                        .score(5L)
                         .description("Good")
                         .build();
         reviews.add(review);

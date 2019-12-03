@@ -44,7 +44,7 @@ public class ReviewServiceTest {
 
         Review review = Review.builder()
                 .name("Bam")
-                .score(3)
+                .score(3L)
                 .description("So So")
                 .build();
 

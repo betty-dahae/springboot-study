@@ -52,7 +52,7 @@ public class RestaurantControllerTest {
                 .id(1004L)
                 .build();
         restaurant.setMenuItems(Arrays.asList(MenuItem.builder().menu("Kimchi").build()));
-        Review review = Review.builder().name("Bam").score(5).description("Good").build();
+        Review review = Review.builder().name("Bam").score(5L).description("Good").build();
         restaurant.setReviews(Arrays.asList(review));
         given(restaurantService.getRestaurant(1004L)).willReturn(restaurant);
         mvc.perform(get("/restaurants/1004"))

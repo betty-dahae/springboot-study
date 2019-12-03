@@ -34,20 +34,18 @@ public class ReviewControllerTest {
     // If we want to use a specific value for an argument, then we can use eq() method.
     @Test
     public void createWithValidAttributes() throws Exception {
-        given(reviewService.addReview(eq(1L), any())).willReturn(Review.builder()
-                                                                .id(123L)
-                                                                .name("Bam")
-                                                                .score(3)
-                                                                .description("So So")
-                                                                .build());
+        String token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwMDQsIm5hbWUiOiJKaG9uIn0.3Pby0MAJswaKDwuCPr3_L_Ra7FzWOmj_bkKuAJpBG20";
+        given(reviewService.addReview(1L, "Jhon",3L, "Great"))
+                .willReturn(Review.builder().id(1L).build());
         mvc.perform(post("/restaurants/1/reviews")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"name\":\"Bam\",\"score\":3,\"description\":\"So So\"}"))
+                .header("Authorization", "Bearer "+token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"score\":3,\"description\":\"Great\"}"))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("location", "/restaurants/1/reviews/123"));
+                .andExpect(header().string("location", "/restaurants/1/reviews/1"));
 
 
-        verify(reviewService).addReview(eq(1L), any());
+        verify(reviewService).addReview(eq(1L), eq("Jhon"), eq(3L), eq("Great"));
     }
     @Test
     public void createWithInValidAttributes() throws Exception {
@@ -57,6 +55,6 @@ public class ReviewControllerTest {
                 .andExpect(status().isBadRequest());
 
 
-        verify(reviewService,never()).addReview(eq(1004L), any());
+        verify(reviewService,never()).addReview(eq(1004L), any(), any(), any());
     }
 }

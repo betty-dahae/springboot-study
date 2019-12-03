@@ -22,9 +22,8 @@ public class Review {
 
     private Long restaurantId;
 
-    @NotEmpty
     private String name;
     @NotNull
-    private int score;
+    private Long score;
     private String description;
 }

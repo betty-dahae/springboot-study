@@ -3,8 +3,10 @@ package com.mia.eatgo.interfaces;
 
 import com.mia.eatgo.application.ReviewService;
 import com.mia.eatgo.domain.Review;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,10 +23,15 @@ public class ReviewController {
     ReviewService reviewService;
 
     @PostMapping("/restaurants/{restaurantId}/reviews")
-    public ResponseEntity<?> create(@PathVariable("restaurantId") Long restaurantId,
+    public ResponseEntity<?> create(
+            Authentication authentication,
+            @PathVariable("restaurantId") Long restaurantId,
                                     @Valid @RequestBody Review resource) throws URISyntaxException {
 
-        Review saved = reviewService.addReview(restaurantId, resource);
+        Claims claims = (Claims)authentication.getPrincipal();
+        String name = claims.get("name", String.class);
+        System.out.println("name: " + name);
+        Review saved = reviewService.addReview(restaurantId, name, resource.getScore(), resource.getDescription());
         String url = "/restaurants/"+restaurantId+"/reviews/"+saved.getId();
         return ResponseEntity.created(new URI(url)).body("{}");
     }
